@@ -13,14 +13,6 @@ This project demonstrates a modern test automation approach combining:
 - **TypeScript** - Type safety and better developer experience
 - **Page Object Model** - Clean separation between test logic and page interactions
 
-## ✨ Key Features
-
-- **Custom World** - Shared browser context across steps
-- **Automatic Screenshots** - Captures screenshots on test failures
-- **Environment Config** - Configurable browser, headless mode, and timeouts
-- **Allure Reports** - Rich test reports
-- **ESLint** - Code linting for consistent code style and quality
-
 ---
 
 ## 🏗️ Project Structure
@@ -47,7 +39,15 @@ playwright-cucumber/
 ```
 
 ---
+## ✨ Key Features
 
+- **Custom World** - Shared browser context across steps
+- **Automatic Screenshots** - Captures screenshots on test failures
+- **Environment Config** - Configurable browser, headless mode, and timeouts
+- **Allure Reports** - Rich test reports
+- **ESLint** - Code linting for consistent code style and quality
+
+---
 ## 🎯 Design Decisions
 
 ### Locators Inside Methods
@@ -151,8 +151,8 @@ strategy:
 
 Allure reports are automatically deployed to GitHub Pages after each run:
 
-- [**View Chromium last generated report**](https://barbaraalozada.github.io/playwright-cucumber/chromium/)
-- [**View Firefox last generated report**](https://barbaraalozada.github.io/playwright-cucumber/firefox/)
+- [**View Last Generated Chromium Report**](https://barbaraalozada.github.io/playwright-cucumber/chromium/)
+- [**View Last Generated Firefox Report**](https://barbaraalozada.github.io/playwright-cucumber/firefox/)
 
 ### GitHub Actions Used
 
