@@ -9,7 +9,7 @@ module.exports = {
       'allure-cucumberjs/reporter'
     ],
     formatOptions: {
-      resultsDir: 'allure-results'
+      resultsDir: process.env.ALLURE_RESULTS_DIR || 'allure-results'
     },
     paths: ['tests/features/**/*.feature'],
     parallel: 1
