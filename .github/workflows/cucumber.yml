@@ -11,7 +11,7 @@ on:
     inputs:
       browser:
         description: "Browser to run"
-        required: false
+        required: true
         default: "all"
         type: choice
         options:
@@ -46,18 +46,18 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run Cucumber tests (${{ matrix.browser }})
-        if: ${{ github.event.inputs.browser == 'all' || github.event.inputs.browser == matrix.browser }}
+        if: github.event.inputs.browser == null || github.event.inputs.browser == 'all' || github.event.inputs.browser == matrix.browser
         run: |
           export BROWSER=${{ matrix.browser }}
           export ALLURE_RESULTS_DIR=allure-results-${{ matrix.browser }}
           npm test
 
       - name: Generate Allure report (${{ matrix.browser }})
-        if: always() && (github.event.inputs.browser == 'all' || github.event.inputs.browser == matrix.browser)
+        if: always() && (github.event.inputs.browser == null || github.event.inputs.browser == 'all' || github.event.inputs.browser == matrix.browser)
         run: npx allure generate allure-results-${{ matrix.browser }} -o allure-report --clean
 
       - name: Upload Allure report artifact (${{ matrix.browser }})
-        if: always() && (github.event.inputs.browser == 'all' || github.event.inputs.browser == matrix.browser)
+        if: always() && (github.event.inputs.browser == null || github.event.inputs.browser == 'all' || github.event.inputs.browser == matrix.browser)
         uses: actions/upload-artifact@v4
         with:
           name: allure-report-${{ matrix.browser }}
@@ -65,7 +65,7 @@ jobs:
           retention-days: 7
 
       - name: Deploy Allure report to GitHub Pages (${{ matrix.browser }})
-        if: always() && (github.event.inputs.browser == 'all' || github.event.inputs.browser == matrix.browser)
+        if: always() && (github.event.inputs.browser == null || github.event.inputs.browser == 'all' || github.event.inputs.browser == matrix.browser)
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
