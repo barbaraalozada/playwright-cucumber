@@ -68,10 +68,41 @@ jobs:
           path: allure-report/
           retention-days: 7
 
-      - name: Deploy Allure report to GitHub Pages (${{ matrix.browser }})
-        if: always() && steps.check-results.outputs.exists == 'true'
+  deploy:
+    needs: test
+    if: always()
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download Chromium report
+        if: github.event.inputs.browser == 'all' || github.event.inputs.browser == 'chromium'
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-report-chromium
+          path: reports/chromium
+        continue-on-error: true
+
+      - name: Download Firefox report
+        if: github.event.inputs.browser == 'all' || github.event.inputs.browser == 'firefox'
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-report-firefox
+          path: reports/firefox
+        continue-on-error: true
+
+      - name: Check if reports exist
+        id: check-reports
+        run: |
+          if [ -d "reports/chromium" ] || [ -d "reports/firefox" ]; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Deploy to GitHub Pages
+        if: steps.check-reports.outputs.exists == 'true'
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: allure-report
-          destination_dir: ${{ matrix.browser }}
+          publish_dir: reports
+          keep_files: true
