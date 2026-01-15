@@ -20,7 +20,7 @@ jobs:
 
     strategy:
       matrix:
-        browser: [chromium, firefox]
+        browser: ${{ github.event.inputs.browser == 'all' && fromJSON('["chromium", "firefox"]') || fromJSON(format('["{0}"]', github.event.inputs.browser)) }}
       fail-fast: false
 
     steps:
@@ -40,7 +40,6 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run Cucumber tests (${{ matrix.browser }})
-        if: github.event.inputs.browser == 'all' || github.event.inputs.browser == matrix.browser
         run: |
           export BROWSER=${{ matrix.browser }}
           export ALLURE_RESULTS_DIR=allure-results-${{ matrix.browser }}
@@ -48,7 +47,7 @@ jobs:
 
       - name: Check if allure-results exists
         id: check-results
-        if: always() && (github.event.inputs.browser == 'all' || github.event.inputs.browser == matrix.browser)
+        if: always()
         run: |
           if [ -d "allure-results-${{ matrix.browser }}" ]; then
             echo "exists=true" >> $GITHUB_OUTPUT
