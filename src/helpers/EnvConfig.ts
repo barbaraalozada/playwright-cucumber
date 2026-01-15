@@ -16,10 +16,9 @@ export class EnvConfig {
     return process.env.HEADLESS === 'true';
   }
 
-  static getBrowser(): 'chromium' | 'firefox' | 'webkit' {
+  static getBrowser(): 'chromium' | 'firefox' {
     const browser = process.env.BROWSER?.toLowerCase();
     if (browser === 'firefox') return 'firefox';
-    if (browser === 'webkit') return 'webkit';
     return 'chromium';
   }
 }

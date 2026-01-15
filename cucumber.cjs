@@ -6,7 +6,6 @@ module.exports = {
     ],
     format: [
       'progress',
-      'html:reports/cucumber-report/report.html',
       'allure-cucumberjs/reporter'
     ],
     formatOptions: {

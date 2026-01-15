@@ -1,8 +1,8 @@
 import type { IWorldOptions } from '@cucumber/cucumber';
 import { setWorldConstructor, World } from '@cucumber/cucumber';
 import type { Browser, BrowserContext, Page } from '@playwright/test';
-import { chromium, firefox, webkit } from '@playwright/test';
-import { EnvConfig } from '../helpers/EnvConfig.ts';
+import { chromium, firefox } from '@playwright/test';
+import { EnvConfig } from '../helpers/EnvConfig';
 
 /**
  * Custom World class for Cucumber
@@ -28,9 +28,6 @@ export class CustomWorld extends World {
     switch (browserType) {
       case 'firefox':
         this.browser = await firefox.launch(launchOptions);
-        break;
-      case 'webkit':
-        this.browser = await webkit.launch(launchOptions);
         break;
       default:
         this.browser = await chromium.launch(launchOptions);

@@ -4,12 +4,10 @@ node_modules/
 # Playwright test results
 /test-results/
 /playwright-report/
-/blob-report/
 /playwright/.cache/
 /playwright/.auth/
 
 # Test artifacts and reports
-reports/
 allure-results/
 allure-report/
 *.log

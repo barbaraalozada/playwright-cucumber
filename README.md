@@ -114,4 +114,51 @@ npm run test:tags "@forms and @textbox"
 - **Custom World** - Shared browser context across steps
 - **Automatic Screenshots** - Captures screenshots on test failures
 - **Environment Config** - Configurable browser, headless mode, and timeouts
-- **HTML Reports** - Generated in `reports/cucumber-report/`
+- **Allure Reports** - Rich test reports with `npm run allure:report`
+
+---
+
+## 🔄 CI/CD with GitHub Actions
+
+This project uses GitHub Actions for continuous integration and GitHub Pages for hosting test reports.
+
+### Workflow Overview
+
+The workflow (`.github/workflows/playwright.yml`) runs on every push and pull request to `main`/`master` branches:
+
+| Step | Description |
+|------|-------------|
+| Checkout | Clones the repository |
+| Setup Node.js | Installs Node.js LTS with npm caching |
+| Install dependencies | Runs `npm ci` for clean install |
+| Install Playwright | Downloads browser binaries |
+| Run tests | Executes Cucumber tests in parallel for Chromium and Firefox |
+| Generate Allure report | Creates HTML reports from test results |
+| Upload artifacts | Stores reports for 7 days |
+| Deploy to GitHub Pages | Publishes reports to `gh-pages` branch |
+
+### Matrix Strategy
+
+Tests run in parallel across multiple browsers:
+
+```yaml
+strategy:
+  matrix:
+    browser: [chromium, firefox]
+```
+
+### GitHub Pages Reports
+
+Allure reports are automatically deployed to GitHub Pages after each run:
+
+- **Chromium report**: `https://<username>.github.io/<repo>/chromium/`
+- **Firefox report**: `https://<username>.github.io/<repo>/firefox/`
+
+### GitHub Actions Used
+
+| Action | Version | Purpose |
+|--------|---------|---------|
+| `actions/checkout` | v4 | Clone repository |
+| `actions/setup-node` | v4 | Setup Node.js environment |
+| `actions/upload-artifact` | v4 | Store test reports as artifacts |
+| `peaceiris/actions-gh-pages` | v4 | Deploy reports to GitHub Pages |

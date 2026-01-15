@@ -1,5 +1,5 @@
 import type { Page } from '@playwright/test';
-import { EnvConfig } from '../../src/helpers/EnvConfig.ts';
+import { EnvConfig } from '../../src/helpers/EnvConfig';
 
 export class MainPage {
   readonly page: Page;

@@ -6,6 +6,13 @@ import { defineConfig } from 'eslint/config';
 
 export default defineConfig([
   {
+    ignores: [
+      'node_modules/',
+      'allure-results/',
+      'allure-report/',
+    ]
+  },
+  {
     files: ['**/*.{js,ts}'],
     languageOptions: {
       globals: globals.browser,
@@ -22,7 +29,6 @@ export default defineConfig([
     },
     rules: {
       ...js.configs.recommended.rules,
-      ...tseslint.configs.recommended.rules,
       ...importPlugin.configs.recommended.rules,
 
       'no-unused-vars': 'off',
@@ -34,14 +40,7 @@ export default defineConfig([
       'no-trailing-spaces': 'error',
       'eol-last': ['error', 'always'],
       'no-multiple-empty-lines': ['error', { max: 1 }],
-      'import/extensions': [
-        'error',
-        'ignorePackages',
-        {
-          ts: 'always',
-          js: 'never'
-        }
-      ],
+      'import/extensions': 'off',
 
       '@typescript-eslint/consistent-type-imports': [
         'error',

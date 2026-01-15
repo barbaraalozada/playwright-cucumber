@@ -1,8 +1,8 @@
 import { When, Then } from '@cucumber/cucumber';
 import type DataTable from '@cucumber/cucumber/lib/models/data_table';
 import { expect } from '@playwright/test';
-import { TextBoxPage } from '../pageObjects/TextBoxPage.ts';
-import type { CustomWorld } from '../../src/support/World.ts';
+import { TextBoxPage } from '../pageObjects/TextBoxPage';
+import type { CustomWorld } from '../../src/support/World';
 
 When('I submit the form with valid personal information',
   async function (this: CustomWorld, table: DataTable) {
