@@ -129,9 +129,28 @@ This project follows a **risk-based testing approach**, focusing validation effo
 - Exploratory testing is used to validate edge cases and new behaviors.
 - Not all scenarios are automated by design, balancing coverage, cost, and execution time.
 
-> Note:
 > This repository intentionally includes a limited number of scenarios to demonstrate structure, tagging strategy, and CI integration.
 > The framework is designed to scale as additional critical, regression, and edge-case scenarios are added.
+
+---
+
+## 🔐 Security Testing Awareness
+
+This project includes basic security-aware practices.
+
+- Credentials are handled through environment variables to avoid hardcoding sensitive data.
+- Test data is separated from test logic to reduce accidental exposure.
+- Authentication scenarios focus on functional validation, not vulnerability exploitation.
+
+In a production environment, security testing would be extended with dedicated tools and reviews.
+
+
+### Basic Security Considerations
+
+- Use of environment variables for credentials
+- No hardcoded secrets in the codebase
+- Avoidance of sensitive data in logs and reports
+- Functional validation of authentication flows
 
 ---
 
@@ -162,7 +181,7 @@ The workflow (.github/workflows/cucumber.yml) is currently executed manually via
 
 ### Quality Gates (Ideal vs Demo Setup)
 Ideal production setup:
-- The pipeline fails when any critical smoke or regression test fails.
+- Release risk is assessed primarily based on the status of critical and smoke test scenarios.
 - Reproducible test failures block deployments.
 - Test execution errors (timeouts, crashes) are treated as release blockers.
 
@@ -207,8 +226,9 @@ strategy:
 
 ### Quality Ownership & Reporting
 - Automated tests act as a quality indicator for releases.
-- Test results are reviewed before approving changes.
+- Test results are reviewed across executions to identify recurring failures and stability trends.
 - Known issues and accepted risks are documented when applicable.
+- Issues impacting critical user flows, cross-browser stability, or core functionality are escalated immediately and treated as release risks.
 
 ### Test Reports (GitHub Pages)
 
