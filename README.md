@@ -13,12 +13,23 @@ This project demonstrates a modern test automation approach combining:
 - **TypeScript** - Type safety and better developer experience
 - **Page Object Model** - Clean separation between test logic and page interactions
 
+## ✨ Key Features
+
+- **Custom World** - Shared browser context across steps
+- **Automatic Screenshots** - Captures screenshots on test failures
+- **Environment Config** - Configurable browser, headless mode, and timeouts
+- **Allure Reports** - Rich test reports
+- **ESLint** - Code linting for consistent code style and quality
+
 ---
 
 ## 🏗️ Project Structure
 
 ```ini
 playwright-cucumber/
+├── .github/
+│   └── workflows/
+│       └── cucumber.yml    # GitHub Actions workflow
 ├── src/
 │   ├── helpers/
 │   │   └── EnvConfig.ts    # Environment configuration
@@ -30,6 +41,7 @@ playwright-cucumber/
 │   ├── pageObjects/        # Page Object classes
 │   └── stepDefinitions/    # Step definition files
 ├── cucumber.cjs            # Cucumber configuration
+├── eslint.config.ts        # ESLint configuration
 ├── tsconfig.json
 └── package.json
 ```
@@ -93,28 +105,16 @@ npm run test:tags "@textbox"
 
 # Run with multiple tags
 npm run test:tags "@forms and @textbox"
+
+# Run Allure report
+npm run allure:report
+
+# Run ESLint
+npm run lint
+
+# Run ESLint with auto-fix
+npm run lint:fix
 ```
-
----
-
-## 📊 Tech Stack
-
-| Category | Technology |
-|----------|------------|
-| Browser Automation | Playwright |
-| BDD Framework | Cucumber |
-| Language | TypeScript |
-| Runtime | Node.js with tsx |
-| Linting | ESLint |
-
----
-
-## ✨ Key Features
-
-- **Custom World** - Shared browser context across steps
-- **Automatic Screenshots** - Captures screenshots on test failures
-- **Environment Config** - Configurable browser, headless mode, and timeouts
-- **Allure Reports** - Rich test reports with `npm run allure:report`
 
 ---
 
@@ -124,7 +124,7 @@ This project uses GitHub Actions for continuous integration and GitHub Pages for
 
 ### Workflow Overview
 
-The workflow (`.github/workflows/playwright.yml`) runs on every push and pull request to `main`/`master` branches:
+The workflow (`.github/workflows/cucumber.yml`) runs manually via workflow dispatch. It can be configured to run automatically on push/pull request if needed:
 
 | Step | Description |
 |------|-------------|
@@ -151,8 +151,8 @@ strategy:
 
 Allure reports are automatically deployed to GitHub Pages after each run:
 
-- **Chromium report**: `https://<username>.github.io/<repo>/chromium/`
-- **Firefox report**: `https://<username>.github.io/<repo>/firefox/`
+- [**View Chromium last generated report**](https://barbaraalozada.github.io/playwright-cucumber/chromium/)
+- [**View Firefox last generated report**] (https://barbaraalozada.github.io/playwright-cucumber/firefox/)
 
 ### GitHub Actions Used
 
