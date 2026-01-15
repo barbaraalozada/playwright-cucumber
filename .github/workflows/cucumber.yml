@@ -42,6 +42,7 @@ jobs:
       - name: Run Cucumber tests (${{ matrix.browser }})
         run: |
           export BROWSER=${{ matrix.browser }}
+          export HEADLESS=true
           export ALLURE_RESULTS_DIR=allure-results-${{ matrix.browser }}
           npm test
 
