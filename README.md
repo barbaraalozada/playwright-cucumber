@@ -152,7 +152,7 @@ strategy:
 Allure reports are automatically deployed to GitHub Pages after each run:
 
 - [**View Chromium last generated report**](https://barbaraalozada.github.io/playwright-cucumber/chromium/)
-- [**View Firefox last generated report**] (https://barbaraalozada.github.io/playwright-cucumber/firefox/)
+- [**View Firefox last generated report**](https://barbaraalozada.github.io/playwright-cucumber/firefox/)
 
 ### GitHub Actions Used
 
