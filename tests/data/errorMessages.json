@@ -1,0 +1,5 @@
+{
+  "login": {
+    "invalidCredentials": "Invalid username or password!"
+  }
+}

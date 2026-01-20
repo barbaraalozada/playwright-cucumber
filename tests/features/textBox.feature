@@ -1,17 +1,31 @@
-@textbox @forms
+@textbox
 Feature: Text Box form submission
 
   Background:
-    Given I am on the 'Elements' page
-    And I navigate to 'Text Box'
+    Given the user accesses the 'Elements' page
+    And the user navigates to the 'Text Box' page
 
-  Scenario Outline: Submit form with valid personal information
-    When I submit the form with valid personal information
-      | name   | email   | currentAddress | permanentAddress |
-      | <name> | <email> | <currentAddr>  | <permanentAddr>  |
-    Then I should see my submitted information displayed
+  @smoke
+  Scenario: Submit form with valid user data
+    When the user submits the form with validUser data
+    Then the submitted information is displayed to the user
+
+  @sanity
+  Scenario Outline: Submit form with different data types
+    When the user submits the form with <dataType> data
+    Then the submitted information is displayed to the user
 
     Examples:
-      | name         | email             | currentAddr          | permanentAddr          |
-      | John Doe     | john.doe@test.com |      123 Main Street |         456 Oak Avenue |
-      | Meryl Streep | meryl@test.com    | Pasadena, California | Salisbury, Connecticut |
+      | dataType                |
+      | longName                |
+      | specialCharactersInName |
+
+  @sanity
+  Scenario: Submit form with invalid email shows error
+    When the user submits the form with invalidEmail data
+    Then the email field shows validation error
+
+  @sanity
+  Scenario: Submit form with empty current address
+    When the user submits the form with emptyCurrentAddress data
+    Then the submitted information is displayed to the user

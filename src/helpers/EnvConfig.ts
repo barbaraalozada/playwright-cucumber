@@ -8,6 +8,38 @@ export class EnvConfig {
     return process.env.BASE_URL || 'https://demoqa.com';
   }
 
+  static getBookStoreUserName(): string {
+    const username = process.env.BOOK_STORE_USERNAME;
+    if (!username) {
+      throw new Error('BOOK_STORE_USERNAME environment variable is not defined');
+    }
+    return username;
+  }
+
+  static getBookStorePassword(): string {
+    const password = process.env.BOOK_STORE_PASSWORD;
+    if (!password) {
+      throw new Error('BOOK_STORE_PASSWORD environment variable is not defined');
+    }
+    return password;
+  }
+
+  static getBookStoreDeletedUserName(): string {
+    const username = process.env.BOOK_STORE_DELETED_USERNAME;
+    if (!username) {
+      throw new Error('BOOK_STORE_DELETED_USERNAME environment variable is not defined');
+    }
+    return username;
+  }
+
+  static getBookStoreDeletedPassword(): string {
+    const password = process.env.BOOK_STORE_DELETED_PASSWORD;
+    if (!password) {
+      throw new Error('BOOK_STORE_DELETED_PASSWORD environment variable is not defined');
+    }
+    return password;
+  }
+
   static getDefaultTimeout(): number {
     return parseInt(process.env.DEFAULT_TIMEOUT || '10000', 10);
   }

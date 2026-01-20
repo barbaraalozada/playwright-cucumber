@@ -1,5 +1,6 @@
 module.exports = {
   default: {
+    requireModule: ['tsx'],
     import: [
       'tests/stepDefinitions/**/*.ts',
       'src/support/**/*.ts'

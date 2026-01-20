@@ -1,10 +1,12 @@
 import type { Page, Locator } from '@playwright/test';
+import { BasePage } from '../../src/pages/BasePage';
 
-export class TextBoxPage {
-  readonly page: Page;
+export class TextBoxPage extends BasePage{
+  readonly uniqueElement: Locator;
 
   constructor(page: Page) {
-    this.page = page;
+    super(page);
+    this.uniqueElement = this.page.locator('.text-center', {hasText: 'Text Box'});
   }
 
   async fillFullNameInput(fullName: string): Promise<void> {
@@ -36,5 +38,11 @@ export class TextBoxPage {
 
   getOutputSection(): Locator {
     return this.page.locator('#output');
+  }
+
+  async isEmailInputInvalid(): Promise<boolean> {
+    const emailInput = this.page.locator('#userEmail');
+    const className = await emailInput.getAttribute('class');
+    return className?.includes('field-error') ?? false;
   }
 }

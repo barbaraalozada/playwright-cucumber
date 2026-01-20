@@ -7,6 +7,14 @@ permissions:
 on:
   workflow_dispatch:
     inputs:
+      suite:
+        description: "Test suite to run"
+        required: true
+        default: "regression"
+        type: choice
+        options:
+          - smoke
+          - regression
       browser:
         description: "Browser to run"
         required: true
@@ -48,7 +56,7 @@ jobs:
           export BROWSER=${{ matrix.browser }}
           export HEADLESS=true
           export ALLURE_RESULTS_DIR=allure-results-${{ matrix.browser }}
-          npm test
+          npm run ${{ github.event.inputs.suite }}
 
       - name: Check if allure-results exists
         id: check-results

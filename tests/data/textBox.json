@@ -1,0 +1,23 @@
+{
+  "base": {
+    "name": "John Doe",
+    "email": "john.doe@test.com",
+    "currentAddress": "123 Main Street",
+    "permanentAddress": "456 Oak Avenue"
+  },
+  "overrides": {
+    "validUser": {},
+    "longName": {
+      "name": "Bartholomew Christopher Alexander Montgomery Wellington III"
+    },
+    "invalidEmail": {
+      "email": "invalid-email"
+    },
+    "emptyCurrentAddress": {
+      "currentAddress": ""
+    },
+    "specialCharactersInName": {
+      "name": "María José O'Connor-López"
+    }
+  }
+}

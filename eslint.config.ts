@@ -41,6 +41,7 @@ export default defineConfig([
       'eol-last': ['error', 'always'],
       'no-multiple-empty-lines': ['error', { max: 1 }],
       'import/extensions': 'off',
+      'import/no-unresolved': ['error', { ignore: ['\\.json$'] }],
 
       '@typescript-eslint/consistent-type-imports': [
         'error',

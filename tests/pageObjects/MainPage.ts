@@ -1,11 +1,13 @@
-import type { Page } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
 import { EnvConfig } from '../../src/helpers/EnvConfig';
+import { BasePage } from '../../src/pages/BasePage';
 
-export class MainPage {
-  readonly page: Page;
+export class MainPage extends BasePage{
+  readonly uniqueElement: Locator;
 
   constructor(page: Page) {
-    this.page = page;
+    super(page);
+    this.uniqueElement = this.page.locator('.home-content');
   }
 
   async open(): Promise<void> {
