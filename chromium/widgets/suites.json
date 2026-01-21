@@ -1,1 +1,1 @@
-{"total":11,"items":[]}
+{"total":2,"items":[{"uid":"abdaa3cf8a77d6456e8a28fb6e6bbb44","name":"textBox","statistic":{"failed":0,"broken":3,"skipped":0,"passed":2,"unknown":0,"total":5}},{"uid":"e294307b5e869e9b2181239eb0874d42","name":"login","statistic":{"failed":0,"broken":0,"skipped":0,"passed":6,"unknown":0,"total":6}}]}
