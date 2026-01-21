@@ -25,10 +25,16 @@ playwright-cucumber/
 ├── src/
 │   ├── helpers/
 │   │   └── EnvConfig.ts    # Environment configuration
+│   ├── pages/
+│   │   └── BasePage.ts     # Base page class
 │   └── support/
 │       ├── hooks.ts        # Cucumber hooks (Before/After)
 │       └── World.ts        # Custom World with Playwright
 ├── tests/
+│   ├── data/               # Test data (JSON + factories)
+│   │   ├── types/          # TypeScript interfaces
+│   │   ├── *.json          # Test data files
+│   │   └── *.factory.ts    # Factory classes
 │   ├── features/           # Gherkin feature files
 │   ├── pageObjects/        # Page Object classes
 │   └── stepDefinitions/    # Step definition files
@@ -51,6 +57,62 @@ playwright-cucumber/
 ---
 
 ## 🎯 Design Decisions
+
+### Test Data Management (Factory Pattern with Overrides)
+
+Test data is managed using a **Factory Pattern with JSON-based overrides**, separating base data from variations:
+
+```
+tests/data/
+├── textBox.json           # Base data + overrides
+├── textBox.factory.ts     # Factory with builder methods
+├── credentials.json       # Login credentials
+├── credentials.factory.ts # Credentials factory
+└── types/
+    ├── textBox.types.ts
+    └── credentials.types.ts
+```
+
+**JSON Structure (base + overrides):**
+
+```json
+{
+  "base": {
+    "name": "John Doe",
+    "email": "john.doe@test.com",
+    "currentAddress": "123 Main Street"
+  },
+  "overrides": {
+    "validUser": {},
+    "invalidEmail": { "email": "invalid-email" },
+    "longName": { "name": "Very Long Name..." }
+  }
+}
+```
+
+**Usage in tests:**
+
+```typescript
+// Simple usage - get data by type
+const data = getTextBoxData('invalidEmail');
+// Result: { name: "John Doe", email: "invalid-email", currentAddress: "123 Main Street" }
+
+// Builder pattern - customize on the fly
+const data = buildTextBoxData('validUser')
+  .withName('Custom Name')
+  .withUpperCaseName()
+  .build();
+```
+
+**Why this approach?**
+
+- **DRY** - Base data defined once, variations only specify what changes
+- **Readable** - Clear what makes each test case different
+- **Maintainable** - Update base data in one place
+- **Flexible** - Builder pattern allows runtime customization
+- **Type-safe** - TypeScript interfaces ensure data consistency
+
+---
 
 ### Locators Inside Methods
 

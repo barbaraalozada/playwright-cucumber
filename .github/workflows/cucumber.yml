@@ -52,11 +52,16 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run Cucumber tests (${{ matrix.browser }})
-        run: |
-          export BROWSER=${{ matrix.browser }}
-          export HEADLESS=true
-          export ALLURE_RESULTS_DIR=allure-results-${{ matrix.browser }}
-          npm run ${{ github.event.inputs.suite }}
+        env:
+          BROWSER: ${{ matrix.browser }}
+          HEADLESS: true
+          ALLURE_RESULTS_DIR: allure-results-${{ matrix.browser }}
+          BASE_URL: https://demoqa.com
+          BOOK_STORE_USERNAME: ${{ secrets.BOOK_STORE_USERNAME }}
+          BOOK_STORE_PASSWORD: ${{ secrets.BOOK_STORE_PASSWORD }}
+          BOOK_STORE_DELETED_USERNAME: ${{ secrets.BOOK_STORE_DELETED_USERNAME }}
+          BOOK_STORE_DELETED_PASSWORD: ${{ secrets.BOOK_STORE_DELETED_PASSWORD }}
+        run: npm run ${{ github.event.inputs.suite }}
 
       - name: Check if allure-results exists
         id: check-results
