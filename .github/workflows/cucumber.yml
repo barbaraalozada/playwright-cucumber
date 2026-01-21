@@ -54,7 +54,7 @@ jobs:
       - name: Run Cucumber tests (${{ matrix.browser }})
         env:
           BROWSER: ${{ matrix.browser }}
-          HEADLESS: false
+          HEADLESS: true
           ALLURE_RESULTS_DIR: allure-results-${{ matrix.browser }}
           BASE_URL: https://demoqa.com
           BOOK_STORE_USERNAME: ${{ secrets.BOOK_STORE_USERNAME }}
@@ -62,7 +62,7 @@ jobs:
           BOOK_STORE_DELETED_USERNAME: ${{ secrets.BOOK_STORE_DELETED_USERNAME }}
           BOOK_STORE_DELETED_PASSWORD: ${{ secrets.BOOK_STORE_DELETED_PASSWORD }}
           DEFAULT_TIMEOUT: ${{ secrets.DEFAULT_TIMEOUT }}
-        run: xvfb-run --auto-servernum npm run ${{ github.event.inputs.suite }}
+        run: npm run ${{ github.event.inputs.suite }}
 
       - name: Add Allure executor info
         if: always()
@@ -135,6 +135,36 @@ jobs:
           else
             echo "exists=false" >> $GITHUB_OUTPUT
           fi
+
+      - name: Download previous Allure history
+        if: always() && steps.check-results.outputs.exists == 'true'
+        run: |
+          curl -sSL https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ matrix.browser }}/history/history.json -o history.json || true
+          curl -sSL https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ matrix.browser }}/history/history-trend.json -o history-trend.json || true
+          if [ -f "history.json" ] && [ -s "history.json" ]; then
+            mkdir -p allure-results-${{ matrix.browser }}/history
+            mv history.json allure-results-${{ matrix.browser }}/history/
+            mv history-trend.json allure-results-${{ matrix.browser }}/history/ 2>/dev/null || true
+            echo "History downloaded successfully"
+          else
+            echo "No previous history found"
+          fi
+        continue-on-error: true
+
+      - name: Limit history to last 5 executions
+        if: always() && steps.check-results.outputs.exists == 'true'
+        run: |
+          if [ -f "allure-results-${{ matrix.browser }}/history/history.json" ]; then
+            # Keep only the last 5 entries in history.json
+            jq 'to_entries | .[-5:] | from_entries' allure-results-${{ matrix.browser }}/history/history.json > temp.json && mv temp.json allure-results-${{ matrix.browser }}/history/history.json
+            echo "History limited to last 5 executions"
+          fi
+          if [ -f "allure-results-${{ matrix.browser }}/history/history-trend.json" ]; then
+            # Keep only the last 5 entries in history-trend.json
+            jq '.[-5:]' allure-results-${{ matrix.browser }}/history/history-trend.json > temp.json && mv temp.json allure-results-${{ matrix.browser }}/history/history-trend.json
+            echo "Trend history limited to last 5 executions"
+          fi
+        continue-on-error: true
 
       - name: Generate Allure report (${{ matrix.browser }})
         if: always() && steps.check-results.outputs.exists == 'true'
