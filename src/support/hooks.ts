@@ -1,11 +1,23 @@
 import { Before, After, setDefaultTimeout } from '@cucumber/cucumber';
 import { mkdir } from 'node:fs/promises';
+import { label, tag } from 'allure-js-commons';
 import type { CustomWorld } from './World';
 import { EnvConfig } from '../helpers/EnvConfig';
 
 setDefaultTimeout(EnvConfig.getDefaultTimeout());
 
-Before(async function (this: CustomWorld) {
+Before(async function (this: CustomWorld, scenario) {
+  const featureUri = scenario.gherkinDocument.uri || '';
+  const featureName = scenario.gherkinDocument.feature?.name || 'Unknown Feature';
+
+  await label('parentSuite', featureUri.split('/').pop()?.replace('.feature', '') || 'Features');
+  await label('suite', featureName);
+  await label('subSuite', scenario.pickle.name);
+
+  for (const pickleTag of scenario.pickle.tags) {
+    await tag(pickleTag.name.replace('@', ''));
+  }
+
   await this.init();
 });
 

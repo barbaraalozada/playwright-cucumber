@@ -63,6 +63,68 @@ jobs:
           BOOK_STORE_DELETED_PASSWORD: ${{ secrets.BOOK_STORE_DELETED_PASSWORD }}
         run: npm run ${{ github.event.inputs.suite }}
 
+      - name: Add Allure executor info
+        if: always()
+        run: |
+          if [ -d "allure-results-${{ matrix.browser }}" ]; then
+            echo '{
+              "name": "GitHub Actions",
+              "type": "github",
+              "buildName": "${{ github.workflow }} #${{ github.run_number }}",
+              "buildUrl": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+              "buildOrder": ${{ github.run_number }},
+              "reportName": "Allure Report - ${{ matrix.browser }}"
+            }' > allure-results-${{ matrix.browser }}/executor.json
+          fi
+
+      - name: Add Allure environment info
+        if: always()
+        run: |
+          if [ -d "allure-results-${{ matrix.browser }}" ]; then
+            echo "Browser=${{ matrix.browser }}
+          Test.Suite=${{ github.event.inputs.suite }}
+          Base.URL=https://demoqa.com
+          Node.Version=$(node --version)
+          OS=ubuntu-latest
+          Branch=${{ github.ref_name }}
+          Commit=${{ github.sha }}
+          Triggered.By=${{ github.actor }}" > allure-results-${{ matrix.browser }}/environment.properties
+          fi
+
+      - name: Add Allure categories
+        if: always()
+        run: |
+          if [ -d "allure-results-${{ matrix.browser }}" ]; then
+            echo '[
+              {
+                "name": "Product Defects",
+                "description": "Tests that found actual bugs in the application",
+                "descriptionHtml": "<b>Product defects</b> - tests that found bugs",
+                "messageRegex": ".*AssertionError.*|.*expect.*|.*Expected.*",
+                "matchedStatuses": ["failed"]
+              },
+              {
+                "name": "Test Defects",
+                "description": "Tests with implementation issues (locators, timeouts, etc)",
+                "descriptionHtml": "<b>Test defects</b> - automation issues",
+                "messageRegex": ".*TimeoutError.*|.*locator.*|.*selector.*|.*Element.*not found.*",
+                "matchedStatuses": ["broken"]
+              },
+              {
+                "name": "Infrastructure Issues",
+                "description": "Environment or infrastructure problems",
+                "descriptionHtml": "<b>Infrastructure</b> - env/network issues",
+                "messageRegex": ".*ECONNREFUSED.*|.*network.*|.*ERR_.*",
+                "matchedStatuses": ["broken"]
+              },
+              {
+                "name": "Skipped Tests",
+                "description": "Tests that were skipped",
+                "matchedStatuses": ["skipped"]
+              }
+            ]' > allure-results-${{ matrix.browser }}/categories.json
+          fi
+
       - name: Check if allure-results exists
         id: check-results
         if: always()
