@@ -1,7 +1,7 @@
 module.exports = {
   default: {
-    requireModule: ['tsx'],
-    import: [
+    requireModule: ['tsx', 'allure-cucumberjs'],
+    require: [
       'tests/stepDefinitions/**/*.ts',
       'src/support/**/*.ts'
     ],
