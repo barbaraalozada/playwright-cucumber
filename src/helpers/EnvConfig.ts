@@ -41,7 +41,7 @@ export class EnvConfig {
   }
 
   static getDefaultTimeout(): number {
-    return parseInt(process.env.DEFAULT_TIMEOUT || '10000', 10);
+    return parseInt(process.env.DEFAULT_TIMEOUT || '20000', 10);
   }
 
   static isHeadless(): boolean {

@@ -61,6 +61,7 @@ jobs:
           BOOK_STORE_PASSWORD: ${{ secrets.BOOK_STORE_PASSWORD }}
           BOOK_STORE_DELETED_USERNAME: ${{ secrets.BOOK_STORE_DELETED_USERNAME }}
           BOOK_STORE_DELETED_PASSWORD: ${{ secrets.BOOK_STORE_DELETED_PASSWORD }}
+          DEFAULT_TIMEOUT: ${{ secrets.DEFAULT_TIMEOUT }}
         run: xvfb-run --auto-servernum npm run ${{ github.event.inputs.suite }}
 
       - name: Add Allure executor info
@@ -172,10 +173,16 @@ jobs:
       - name: Check if reports exist
         id: check-reports
         run: |
+          echo "Checking reports directory..."
+          ls -la reports/ 2>/dev/null || echo "reports/ directory does not exist"
+          ls -la reports/chromium/ 2>/dev/null || echo "reports/chromium/ does not exist"
+          ls -la reports/firefox/ 2>/dev/null || echo "reports/firefox/ does not exist"
           if [ -d "reports/chromium" ] || [ -d "reports/firefox" ]; then
             echo "exists=true" >> $GITHUB_OUTPUT
+            echo "Reports found, will deploy"
           else
             echo "exists=false" >> $GITHUB_OUTPUT
+            echo "No reports found, skipping deploy"
           fi
 
       - name: Deploy to GitHub Pages
