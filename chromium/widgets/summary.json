@@ -1,1 +1,1 @@
-{"reportName":"Allure Report - chromium","testRuns":[],"statistic":{"failed":0,"broken":1,"skipped":0,"passed":10,"unknown":0,"total":11},"time":{"start":1768954604976,"stop":1768954665222,"duration":60246,"minDuration":2298,"maxDuration":20083,"sumDuration":60235}}
+{"reportName":"Allure Report - chromium","testRuns":[],"statistic":{"failed":0,"broken":5,"skipped":0,"passed":6,"unknown":0,"total":11},"time":{"start":1768955457263,"stop":1768955613270,"duration":156007,"minDuration":6801,"maxDuration":22018,"sumDuration":155994}}

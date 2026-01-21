@@ -1,1 +1,1 @@
-{"reportName":"Allure Report - firefox","testRuns":[],"statistic":{"failed":0,"broken":1,"skipped":0,"passed":10,"unknown":0,"total":11},"time":{"start":1768954591095,"stop":1768954673794,"duration":82699,"minDuration":5298,"maxDuration":12409,"sumDuration":82687}}
+{"reportName":"Allure Report - firefox","testRuns":[],"statistic":{"failed":0,"broken":4,"skipped":0,"passed":7,"unknown":0,"total":11},"time":{"start":1768955467672,"stop":1768955575788,"duration":108116,"minDuration":7200,"maxDuration":13135,"sumDuration":108105}}
