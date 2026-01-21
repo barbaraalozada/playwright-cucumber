@@ -54,14 +54,14 @@ jobs:
       - name: Run Cucumber tests (${{ matrix.browser }})
         env:
           BROWSER: ${{ matrix.browser }}
-          HEADLESS: true
+          HEADLESS: false
           ALLURE_RESULTS_DIR: allure-results-${{ matrix.browser }}
           BASE_URL: https://demoqa.com
           BOOK_STORE_USERNAME: ${{ secrets.BOOK_STORE_USERNAME }}
           BOOK_STORE_PASSWORD: ${{ secrets.BOOK_STORE_PASSWORD }}
           BOOK_STORE_DELETED_USERNAME: ${{ secrets.BOOK_STORE_DELETED_USERNAME }}
           BOOK_STORE_DELETED_PASSWORD: ${{ secrets.BOOK_STORE_DELETED_PASSWORD }}
-        run: npm run ${{ github.event.inputs.suite }}
+        run: xvfb-run --auto-servernum npm run ${{ github.event.inputs.suite }}
 
       - name: Add Allure executor info
         if: always()
